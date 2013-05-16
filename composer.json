@@ -13,6 +13,5 @@
     },
     "autoload": {
         "psr-0": { "Digitick\\Sepa": "lib/" }
-    },
-    "target-dir": "Digitick/Sepa"
+    }
 }
