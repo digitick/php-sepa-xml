@@ -90,6 +90,13 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
         if(!isset($this->payments[$paymentName])) {
             throw new InvalidArgumentException(sprintf('Payment with the name %s does not exists, create one first with addPaymentInfo', $paymentName));
         }
+
+        if (!$transferInformation['debtorMandateSignDate'] instanceof \DateTime) {
+            $mandateSignDate = new \DateTime($transferInformation['debtorMandateSignDate']);
+        } else {
+            $mandateSignDate = $transferInformation['debtorMandateSignDate'];
+        }
+
         $transfer = new CustomerDirectDebitTransferInformation(
             $transferInformation['amount'],
             $transferInformation['debtorIban'],
@@ -97,7 +104,7 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
         );
         $transfer->setBic($transferInformation['debtorBic']);
         $transfer->setMandateId($transferInformation['debtorMandate']);
-        $transfer->setMandateSignDate(new \DateTime($transferInformation['debtorMandateSignDate']));
+        $transfer->setMandateSignDate($mandateSignDate);
         $transfer->setRemittanceInformation($transferInformation['remittanceInformation']);
         if(isset($transferInformation['endToEndId'])) {
             $transfer->setEndToEndIdentification($transferInformation['endToEndId']);
