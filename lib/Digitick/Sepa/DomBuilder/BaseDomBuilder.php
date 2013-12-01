@@ -28,6 +28,7 @@ use Digitick\Sepa\GroupHeader;
 abstract class BaseDomBuilder implements DomBuilderInterface
 {
     const INITIAL_STRING = '<?xml version="1.0" encoding="UTF-8"?><Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:%s"></Document>';
+    const BIC_NOT_PROVIDED ='NOTPROVIDED';
 
     protected $doc;
 
@@ -112,8 +113,13 @@ abstract class BaseDomBuilder implements DomBuilderInterface
      */
     protected function getFinancialInstitutionElement($bic) {
         $finInstitution = $this->createElement('FinInstnId');
-        $finInstitution->appendChild($this->createElement('BIC', $bic));
-
+        if (!isset($bic) || trim($bic)==='') {
+	$other = $this->createElement ( 'Othr' );
+	$id = $this->createElement ( 'Id', self::BIC_NOT_PROVIDED );
+	$other->appendChild ( $id );
+	$finInstitution->appendChild ( $other );
+         } else
+	$finInstitution->appendChild ( $this->createElement ( 'BIC', $bic ) );
         return $finInstitution;
     }
 
