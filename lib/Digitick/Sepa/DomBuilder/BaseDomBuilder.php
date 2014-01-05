@@ -114,12 +114,12 @@ abstract class BaseDomBuilder implements DomBuilderInterface
     protected function getFinancialInstitutionElement($bic) {
         $finInstitution = $this->createElement('FinInstnId');
         if (!isset($bic) || trim($bic)==='') {
-	$other = $this->createElement ( 'Othr' );
-	$id = $this->createElement ( 'Id', self::BIC_NOT_PROVIDED );
-	$other->appendChild ( $id );
-	$finInstitution->appendChild ( $other );
-         } else
-	$finInstitution->appendChild ( $this->createElement ( 'BIC', $bic ) );
+            $other = $this->createElement ( 'Othr' );
+            $id = $this->createElement ( 'Id', self::BIC_NOT_PROVIDED );
+            $other->appendChild ( $id );
+            $finInstitution->appendChild ( $other );
+        } else
+            $finInstitution->appendChild ( $this->createElement ( 'BIC', $bic ) );
         return $finInstitution;
     }
 
