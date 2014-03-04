@@ -29,10 +29,15 @@ class CustomerCreditTransferInformation extends BaseTransferInformation
      * @param string $iban
      * @param string $name
      */
-    function __construct($amount, $iban, $name)
+    function __construct($amount, $iban, $name, $id = null)
     {
         parent::__construct($amount, $iban, $name);
         // FIXME broken implementation find suitable IDs
+
+        if ($id) {
+            $this->setInstructionId($id);
+        }
+
         $this->setEndToEndIdentification($name);
     }
 
