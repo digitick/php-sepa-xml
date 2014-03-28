@@ -139,7 +139,7 @@ abstract class BaseDomBuilder implements DomBuilderInterface
     {
         $finInstitution = $this->createElement('FinInstnId');
         
-        if (!isset($bic) || trim($bic)==='') {
+        if (strtoupper($bic)==='NOTPROVIDED') {
             $other = $this->createElement ( 'Othr' );
             $id = $this->createElement ( 'Id', 'NOTPROVIDED' );
             $other->appendChild ( $id );
