@@ -107,8 +107,8 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
         $organizationIdentification = $this->createElement('OrgId');
         $orgOther = $this->createElement('Othr');
         $orgId = $this->getIbanElement($paymentInformation->getOriginAccountIBAN());
+        $orgOther->appendChild($orgId);
         $organizationIdentification->appendChild($orgOther);
-        $organizationIdentification->appendChild($orgId);
         $id->appendChild($organizationIdentification);
         $ultimateCreditorAgent->appendChild($name);
         $ultimateCreditorAgent->appendChild($id);
