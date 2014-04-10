@@ -104,7 +104,7 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
         $ultimateCreditorAgent = $this->createElement('UltmtCdtr');
         $name = $this->createElement('Nm', $paymentInformation->getOriginName());
         $id = $this->createElement('Id');
-        $organizationIdentification = $this->createElement('OrgIdS');
+        $organizationIdentification = $this->createElement('OrgId');
         $orgOther = $this->createElement('Othr');
         $orgId = $this->getIbanElement($paymentInformation->getOriginAccountIBAN());
         $organizationIdentification->appendChild($orgOther);
