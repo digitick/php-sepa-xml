@@ -88,10 +88,10 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
             throw new InvalidArgumentException(sprintf('Payment with the name %s does not exists, create one first with addPaymentInfo', $paymentName));
         }
 
-        if (!$transferInformation['debtorMandateSignDate'] instanceof \DateTime) {
-            $mandateSignDate = new \DateTime($transferInformation['debtorMandateSignDate']);
-        } else {
+        if($transferInformation['debtorMandateSignDate'] instanceof \DateTime) {
             $mandateSignDate = $transferInformation['debtorMandateSignDate'];
+        } else {
+            $mandateSignDate = new \DateTime($transferInformation['debtorMandateSignDate']);
         }
 
         $transfer = new CustomerDirectDebitTransferInformation(
