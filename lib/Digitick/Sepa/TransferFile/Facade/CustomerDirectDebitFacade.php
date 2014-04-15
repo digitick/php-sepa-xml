@@ -119,9 +119,12 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
         }
         if (isset($transferInformation['amendmentIndicator'])) {
             $transfer->setAmendmentIndicator($transferInformation['amendmentIndicator']);
-            if ($transferInformation['amendmentIndicator'] == 'true' && isset($transferInformation['amendmentIndicatorDetails'])) {
-                $transfer->setAmendmentIndicatorDetails($transferInformation['amendmentIndicatorDetails']);
-            }
+            /*
+                TODO : add support for amendmentIndicatorDetails (<AmdmntInfDtls>)
+            */
+            // if ($transferInformation['amendmentIndicator'] == 'true' && isset($transferInformation['amendmentIndicatorDetails'])) {
+            //     $transfer->setAmendmentIndicatorDetails($transferInformation['amendmentIndicatorDetails']);
+            // }
         }
 
         $this->payments[$paymentName]->addTransfer($transfer);

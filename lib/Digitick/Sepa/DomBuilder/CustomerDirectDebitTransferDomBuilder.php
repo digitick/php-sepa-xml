@@ -171,11 +171,19 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
             $mandateRelatedInformation->appendChild(
                 $this->createElement('AmdmntInd', $transactionInformation->getAmendmentIndicator())
             );
-            if ($transactionInformation->getAmendmentIndicatorDetails()) {
-                $mandateRelatedInformation->appendChild(
-                    $this->createElement('AmdmntIndDtls', $transactionInformation->getAmendmentIndicatorDetails())
-                );
-            }
+            
+            /*
+                TODO : add support for amendmentIndicatorDetails (<AmdmntInfDtls>)
+                Please note that <AmdmntInfDtls> is mandatory if <AmdmntInd> is 'true'
+                
+                Also note that for <AmdmntInfDtls> is Composed and it must have a value set
+                for at least one of it's child nodes
+            */
+            // if ($transactionInformation->getAmendmentIndicatorDetails()) {
+            //     $mandateRelatedInformation->appendChild(
+            //         $this->createElement('AmdmntInfDtls', $transactionInformation->getAmendmentIndicatorDetails())
+            //     );
+            // }
         }
 
         // TODO add the possibility to add CreditorSchemeId on transfer level

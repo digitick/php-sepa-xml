@@ -41,10 +41,13 @@ class CustomerDirectDebitTransferInformation extends BaseTransferInformation
      */
     protected $amendmentIndicator;
 
-    /**
-     * @var string
-     */
-    protected $amendmentIndicatorDetails;
+    /*
+        TODO : add support for amendmentIndicatorDetails (<AmdmntInfDtls>)
+
+        For more details please check the CustomerDirectDebitTransferDomBuilder.php file
+        method : visitTransferInformation()
+    */
+    // protected $amendmentIndicatorDetails;
 
     /**
      * @var \DateTime
@@ -132,16 +135,6 @@ class CustomerDirectDebitTransferInformation extends BaseTransferInformation
     }
 
     /**
-     * Gets the value of amendmentIndicatorDetails.
-     *
-     * @return string
-     */
-    public function getAmendmentIndicatorDetails()
-    {
-        return $this->amendmentIndicatorDetails;
-    }
-
-    /**
      * Sets the value of amendmentIndicator.
      *
      * @param string $amendmentIndicator the amendment indicator
@@ -155,17 +148,4 @@ class CustomerDirectDebitTransferInformation extends BaseTransferInformation
         return $this;
     }
 
-    /**
-     * Sets the value of amendmentIndicatorDetails.
-     *
-     * @param string $amendmentIndicatorDetails the amendment indicator details
-     *
-     * @return self
-     */
-    public function setAmendmentIndicatorDetails($amendmentIndicatorDetails)
-    {
-        $this->amendmentIndicatorDetails = $amendmentIndicatorDetails;
-
-        return $this;
-    }
 }
