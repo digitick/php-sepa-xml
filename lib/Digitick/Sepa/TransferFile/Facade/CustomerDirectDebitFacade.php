@@ -83,6 +83,8 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
      *      - debtorMandateSignDate
      *      - remittanceInformation
      *      - [endToEndId]
+     *      - [amendmentIndicator]
+     *      - [amendmentIndicatorDetails]
      *
      * @throws \Digitick\Sepa\Exception\InvalidArgumentException
      * @return mixed
@@ -114,6 +116,12 @@ class CustomerDirectDebitFacade extends BaseCustomerTransferFileFacade
             $transfer->setEndToEndIdentification(
                 $this->payments[$paymentName]->getId() . count($this->payments[$paymentName]->getTransfers())
             );
+        }
+        if (isset($transferInformation['amendmentIndicator'])) {
+            $transfer->setAmendmentIndicator($transferInformation['amendmentIndicator']);
+            if ($transferInformation['amendmentIndicator'] == 'true' && isset($transferInformation['amendmentIndicatorDetails'])) {
+                $transfer->setAmendmentIndicatorDetails($transferInformation['amendmentIndicatorDetails']);
+            }
         }
 
         $this->payments[$paymentName]->addTransfer($transfer);

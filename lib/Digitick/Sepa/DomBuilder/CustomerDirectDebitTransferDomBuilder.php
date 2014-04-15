@@ -167,6 +167,13 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
         );
         $directDebitTransactionInformation->appendChild($directDebitTransaction);
 
+        if ($transactionInformation->getAmendmentIndicator()) {
+            $this->createElement('AmdmntInd', $transactionInformation->getAmendmentIndicator())
+            if ($transactionInformation->getAmendmentIndicatorDetails()) {
+                $this->createElement('AmdmntIndDtls', $transactionInformation->getAmendmentIndicatorDetails())
+            }
+        }
+
         // TODO add the possibility to add CreditorSchemeId on transfer level
 
         $debtorAgent = $this->createElement('DbtrAgt');

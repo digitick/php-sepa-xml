@@ -37,6 +37,16 @@ class CustomerDirectDebitTransferInformation extends BaseTransferInformation
     protected $mandateSignDate;
 
     /**
+     * @var string
+     */
+    protected $amendmentIndicator;
+
+    /**
+     * @var string
+     */
+    protected $amendmentIndicatorDetails;
+
+    /**
      * @var \DateTime
      */
     protected $finalCollectionDate;
@@ -110,4 +120,52 @@ class CustomerDirectDebitTransferInformation extends BaseTransferInformation
     }
 
 
+
+    /**
+     * Gets the value of amendmentIndicator.
+     *
+     * @return string
+     */
+    public function getAmendmentIndicator()
+    {
+        return $this->amendmentIndicator;
+    }
+
+    /**
+     * Gets the value of amendmentIndicatorDetails.
+     *
+     * @return string
+     */
+    public function getAmendmentIndicatorDetails()
+    {
+        return $this->amendmentIndicatorDetails;
+    }
+
+    /**
+     * Sets the value of amendmentIndicator.
+     *
+     * @param string $amendmentIndicator the amendment indicator
+     *
+     * @return self
+     */
+    public function setAmendmentIndicator($amendmentIndicator)
+    {
+        $this->amendmentIndicator = $amendmentIndicator;
+
+        return $this;
+    }
+
+    /**
+     * Sets the value of amendmentIndicatorDetails.
+     *
+     * @param string $amendmentIndicatorDetails the amendment indicator details
+     *
+     * @return self
+     */
+    public function setAmendmentIndicatorDetails($amendmentIndicatorDetails)
+    {
+        $this->amendmentIndicatorDetails = $amendmentIndicatorDetails;
+
+        return $this;
+    }
 }
