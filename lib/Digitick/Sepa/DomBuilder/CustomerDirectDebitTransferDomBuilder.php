@@ -168,9 +168,9 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
         $directDebitTransactionInformation->appendChild($directDebitTransaction);
 
         if ($transactionInformation->getAmendmentIndicator()) {
-            $this->createElement('AmdmntInd', $transactionInformation->getAmendmentIndicator())
+            $this->createElement('AmdmntInd', $transactionInformation->getAmendmentIndicator());
             if ($transactionInformation->getAmendmentIndicatorDetails()) {
-                $this->createElement('AmdmntIndDtls', $transactionInformation->getAmendmentIndicatorDetails())
+                $this->createElement('AmdmntIndDtls', $transactionInformation->getAmendmentIndicatorDetails());
             }
         }
 
