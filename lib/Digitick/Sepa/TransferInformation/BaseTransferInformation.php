@@ -90,6 +90,8 @@ class BaseTransferInformation implements TransferInformationInterface
             }
             bcscale(2);
             $amount = (integer)bcmul($amount, 100);
+        } else {
+            $amount = (integer)$amount * 100;
         }
         $this->transferAmount = $amount;
         $this->iban = $iban;
