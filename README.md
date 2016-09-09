@@ -1,3 +1,6 @@
+##THIS PROJECT IS NO LONGER MAINTAINED
+Please use https://github.com/php-sepa-xml/php-sepa-xml
+
 php-sepa-xml
 ============
 
