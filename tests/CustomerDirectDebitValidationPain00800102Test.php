@@ -85,4 +85,48 @@ class CustomerDirectDebitValidationPain00800102Test extends \PHPUnit_Framework_T
         $validated = $this->dom->schemaValidate($this->schema);
         $this->assertTrue($validated);
     }
+
+    /**
+     * Test a transfer file with 2 payments and one transaction.
+     * Added also the tests for adding amendmentIndicator & amendmentIndicatorDetails
+     */
+    public function testDomBuilderAcceptsPainFormatAsConstructorAndAmendmentIndicator()
+    {
+        $groupHeader = new GroupHeader('transferID', 'Me');
+        $sepaFile = new CustomerDirectDebitTransferFile($groupHeader);
+
+        $transfer = new CustomerDirectDebitTransferInformation('0.01', 'FI1350001540000056', 'Their Corp');
+        $transfer->setBic('OKOYFIHH');
+        $transfer->setMandateSignDate(new \DateTime('16.08.2013'));
+        $transfer->setMandateId('ABCDE');
+        $transfer->setAmendmentIndicator('false');
+        $transfer->setRemittanceInformation('Transaction Description');
+
+        $transfer2 = new CustomerDirectDebitTransferInformation('0.02', 'FI1350001540000056', 'Their Corp');
+        $transfer2->setBic('OKOYFIHH');
+        $transfer2->setMandateSignDate(new \DateTime('16.08.2013'));
+        $transfer2->setMandateId('ABCDE');
+        $transfer2->setAmendmentIndicator('true');
+        $transfer2->setRemittanceInformation('Transaction Description');
+
+        $payment = new PaymentInformation('Payment Info ID', 'FR1420041010050500013M02606', 'PSSTFRPPMON', 'My Corp');
+        $payment->setSequenceType(PaymentInformation::S_ONEOFF);
+        $payment->setDueDate(new \DateTime('22.08.2013'));
+        $payment->setCreditorId('DE21WVM1234567890');
+        $payment->addTransfer($transfer);
+        $payment->addTransfer($transfer2);
+
+        $sepaFile->addPaymentInformation($payment);
+
+        $domBuilder = new CustomerDirectDebitTransferDomBuilder('pain.008.001.02');
+        $sepaFile->accept($domBuilder);
+        $xml = $domBuilder->asXml();
+
+        $this->dom->loadXML($xml);
+
+        $validated = $this->dom->schemaValidate($this->schema);
+        $this->assertTrue($validated);
+    }
+
+
 }

@@ -100,6 +100,20 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
         $creditorAgent->appendChild($this->getFinancialInstitutionElement($paymentInformation->getOriginAgentBIC()));
         $this->currentPayment->appendChild($creditorAgent);
 
+        // <UltmtCdtr>
+        $ultimateCreditorAgent = $this->createElement('UltmtCdtr');
+        $name = $this->createElement('Nm', $paymentInformation->getOriginName());
+        $id = $this->createElement('Id');
+        $organizationIdentification = $this->createElement('OrgId');
+        $orgOther = $this->createElement('Othr');
+        $orgId = $this->createElement('Id', $paymentInformation->getOriginAccountIBAN());
+        $orgOther->appendChild($orgId);
+        $organizationIdentification->appendChild($orgOther);
+        $id->appendChild($organizationIdentification);
+        $ultimateCreditorAgent->appendChild($name);
+        $ultimateCreditorAgent->appendChild($id);
+        $this->currentPayment->appendChild($ultimateCreditorAgent);
+
         $this->currentPayment->appendChild($this->createElement('ChrgBr', 'SLEV'));
 
         $creditorSchemeId = $this->createElement('CdtrSchmeId');
@@ -152,6 +166,25 @@ class CustomerDirectDebitTransferDomBuilder extends BaseDomBuilder
             $this->createElement('DtOfSgntr', $transactionInformation->getMandateSignDate()->format('Y-m-d'))
         );
         $directDebitTransactionInformation->appendChild($directDebitTransaction);
+
+        if ($transactionInformation->getAmendmentIndicator()) {
+            $mandateRelatedInformation->appendChild(
+                $this->createElement('AmdmntInd', $transactionInformation->getAmendmentIndicator())
+            );
+            
+            /*
+                TODO : add support for amendmentIndicatorDetails (<AmdmntInfDtls>)
+                Please note that <AmdmntInfDtls> is mandatory if <AmdmntInd> is 'true'
+                
+                Also note that for <AmdmntInfDtls> is Composed and it must have a value set
+                for at least one of it's child nodes
+            */
+            // if ($transactionInformation->getAmendmentIndicatorDetails()) {
+            //     $mandateRelatedInformation->appendChild(
+            //         $this->createElement('AmdmntInfDtls', $transactionInformation->getAmendmentIndicatorDetails())
+            //     );
+            // }
+        }
 
         // TODO add the possibility to add CreditorSchemeId on transfer level
 
