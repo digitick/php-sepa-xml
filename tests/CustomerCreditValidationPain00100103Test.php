@@ -58,20 +58,27 @@ class CustomerCreditValidationPain00100103Test extends \PHPUnit_Framework_TestCa
 
     /**
      * Test a transfer file with one payment and one transaction.
+     * @dataProvider scenarios
      */
-    public function testSinglePaymentSingleTransWithMoreInfo()
+    public function testSinglePaymentSingleTransWithMoreInfo($scenario)
     {
         $groupHeader = new GroupHeader('transferID', 'Me');
         $groupHeader->setInitiatingPartyId('XXXXXXXXXX');
+        $groupHeader->setIssuer('Issuing Party');
         $sepaFile = new CustomerCreditTransferFile($groupHeader);
 
         $transfer = new CustomerCreditTransferInformation('0.02', 'FI1350001540000056', 'Their Corp');
-        $transfer->setBic('OKOYFIHH');
+        if($scenario['bic'] !== '') {
+            $transfer->setBic($scenario['bic']);
+        }
         $transfer->setRemittanceInformation('Transaction Description');
         $transfer->setEndToEndIdentification(uniqid());
         $transfer->setInstructionId(uniqid());
 
         $payment = new PaymentInformation('Payment Info ID', 'FR1420041010050500013M02606', 'PSSTFRPPMON', 'My Corp');
+        if($scenario['batchBooking']) {
+            $payment->setBatchBooking(true);
+        }
         $payment->setValidPaymentMethods(array('TRANSFER'));
         $payment->setPaymentMethod('TRANSFER');
         $payment->setCategoryPurposeCode('SALA');
@@ -86,5 +93,25 @@ class CustomerCreditValidationPain00100103Test extends \PHPUnit_Framework_TestCa
 
         $validated = $this->dom->schemaValidate($this->schema);
         $this->assertTrue($validated);
+    }
+
+    /**
+     * @return array
+     */
+    public function scenarios() {
+        return array(
+            array(
+                array(
+                    'batchBooking' => true,
+                    'bic' => 'OKOYFIHH'
+                )
+            ),
+            array(
+                array(
+                    'batchBooking' => false,
+                    'bic' => ''
+                )
+            ),
+        );
     }
 }

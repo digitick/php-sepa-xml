@@ -60,6 +60,7 @@ abstract class BaseDomBuilder implements DomBuilderInterface
         $this->root = $this->doc->createElement('Document');
         $this->root->setAttribute('xmlns', sprintf("urn:iso:std:iso:20022:tech:xsd:%s", $painFormat));
         $this->root->setAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance");
+        $this->root->setAttribute('xsi:schemaLocation', "urn:iso:std:iso:20022:tech:xsd:$painFormat $painFormat.xsd");
         $this->doc->appendChild($this->root);
     }
 
@@ -109,16 +110,14 @@ abstract class BaseDomBuilder implements DomBuilderInterface
         $groupHeaderTag->appendChild($messageId);
         $creationDateTime = $this->createElement(
             'CreDtTm',
-            $groupHeader->getCreationDateTime()->format('Y-m-d\TH:i:s\Z')
+            $groupHeader->getCreationDateTime()->format($groupHeader->getCreationDateTimeFormat())
         );
         $groupHeaderTag->appendChild($creationDateTime);
         $groupHeaderTag->appendChild($this->createElement('NbOfTxs', $groupHeader->getNumberOfTransactions()));
         $groupHeaderTag->appendChild(
             $this->createElement('CtrlSum', $this->intToCurrency($groupHeader->getControlSumCents()))
         );
-        if($groupHeader->getBatchBooking() !== null) {
-            $groupHeaderTag->appendChild($this->createElement('BtchBookg', $groupHeader->getBatchBooking()));
-        }
+
         $initiatingParty = $this->createElement('InitgPty');
         $initiatingPartyName = $this->createElement('Nm', $groupHeader->getInitiatingPartyName());
         $initiatingParty->appendChild($initiatingPartyName);
@@ -138,7 +137,16 @@ abstract class BaseDomBuilder implements DomBuilderInterface
     protected function getFinancialInstitutionElement($bic)
     {
         $finInstitution = $this->createElement('FinInstnId');
-        $finInstitution->appendChild($this->createElement('BIC', $bic));
+        
+        if(!$bic) {
+            $other = $this->createElement('Othr');
+            $id = $this->createElement('Id', 'NOTPROVIDED');
+            $other->appendChild($id);
+            $finInstitution->appendChild($other);
+        } else {
+            $finInstitution->appendChild($this->createElement('BIC', $bic));
+        }
+        
 
         return $finInstitution;
     }

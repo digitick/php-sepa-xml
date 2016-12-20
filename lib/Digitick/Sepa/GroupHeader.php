@@ -46,6 +46,13 @@ class GroupHeader
      */
     protected $initiatingPartyId;
 
+	/**
+	 * The Issuer.
+	 *
+	 * @var string
+	 */
+	protected $issuer;
+
     /**
      * @var int
      */
@@ -67,16 +74,17 @@ class GroupHeader
     protected $creationDateTime;
 
     /**
-     * Should the bank book multiple transaction as a batch
-     *
-     * @var int
+     * @var string
      */
-    protected $batchBooking = null;
+    protected $creationDateTimeFormat = 'Y-m-d\TH:i:s\Z';
 
     /**
-     * @param $messageIdentification
-     * @param $isTest
-     * @param $initiatingPartyName
+     * @param string $messageIdentification Maximum length: 35. Reference Number of the bulk.
+     *                                      Part of the duplication check (unique daily reference).
+     *                                      The first 8 or 11 characters of <Msgld> must match the BIC of the
+     *                                      Instructing Agent. The rest of the field can be freely defined.
+     * @param string $initiatingPartyName
+     * @param boolean $isTest
      */
     function __construct($messageIdentification, $initiatingPartyName, $isTest = false)
     {
@@ -123,6 +131,22 @@ class GroupHeader
         return $this->initiatingPartyId;
     }
 
+	/**
+	 * @return string
+	 */
+	public function getIssuer()
+	{
+		return $this->issuer;
+	}
+
+	/**
+	 * @param string $issuer
+	 */
+	public function setIssuer($issuer)
+	{
+		$this->issuer = $issuer;
+	}
+
     /**
      * @param string $initiatingPartyName
      */
@@ -153,22 +177,6 @@ class GroupHeader
     public function getIsTest()
     {
         return $this->isTest;
-    }
-    
-    /**
-     * @param boolean $batchBooking
-     */
-    public function setBatchBooking($batchBooking)
-    {
-        $this->batchBooking = $batchBooking;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getBatchBooking()
-    {
-        return $this->batchBooking;
     }
 
     /**
@@ -211,4 +219,19 @@ class GroupHeader
         return $this->creationDateTime;
     }
 
+    /**
+     * @param string $creationDateTimeFormat
+     */
+    public function setCreationDateTimeFormat($creationDateTimeFormat)
+    {
+        $this->creationDateTimeFormat = $creationDateTimeFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationDateTimeFormat()
+    {
+        return $this->creationDateTimeFormat;
+    }
 }

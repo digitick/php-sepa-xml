@@ -59,6 +59,11 @@ class CustomerCreditTransferDomBuilder extends BaseDomBuilder
         $this->currentPayment = $this->createElement('PmtInf');
         $this->currentPayment->appendChild($this->createElement('PmtInfId', $paymentInformation->getId()));
         $this->currentPayment->appendChild($this->createElement('PmtMtd', $paymentInformation->getPaymentMethod()));
+
+        if($paymentInformation->getBatchBooking() !== null) {
+            $this->currentPayment->appendChild($this->createElement('BtchBookg', $paymentInformation->getBatchBooking()));
+        }
+
         $this->currentPayment->appendChild(
             $this->createElement('NbOfTxs', $paymentInformation->getNumberOfTransactions())
         );
@@ -138,11 +143,13 @@ class CustomerCreditTransferDomBuilder extends BaseDomBuilder
         $CdtTrfTxInf->appendChild($amount);
 
         //Creditor Agent 2.77
-        $creditorAgent = $this->createElement('CdtrAgt');
-        $financialInstitution = $this->createElement('FinInstnId');
-        $financialInstitution->appendChild($this->createElement('BIC', $transactionInformation->getBic()));
-        $creditorAgent->appendChild($financialInstitution);
-        $CdtTrfTxInf->appendChild($creditorAgent);
+        if ($transactionInformation->getBic()) {
+            $creditorAgent = $this->createElement('CdtrAgt');
+            $financialInstitution = $this->createElement('FinInstnId');
+            $financialInstitution->appendChild($this->createElement('BIC', $transactionInformation->getBic()));
+            $creditorAgent->appendChild($financialInstitution);
+            $CdtTrfTxInf->appendChild($creditorAgent);
+        }
 
         // Creditor 2.79
         $creditor = $this->createElement('Cdtr');
@@ -178,6 +185,11 @@ class CustomerCreditTransferDomBuilder extends BaseDomBuilder
             $orgId = $this->createElement('OrgId');
             $othr  = $this->createElement('Othr');
             $othr->appendChild($this->createElement('Id', $groupHeader->getInitiatingPartyId()));
+
+            if ($groupHeader->getIssuer()) {
+                $othr->appendChild($this->createElement('Issr', $groupHeader->getIssuer()));
+            }
+
             $orgId->appendChild($othr);
             $newId->appendChild($orgId);
 

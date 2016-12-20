@@ -4,7 +4,7 @@ Please use https://github.com/php-sepa-xml/php-sepa-xml
 php-sepa-xml
 ============
 
-Master: [![Build Status](https://secure.travis-ci.org/digitick/php-sepa-xml.png?branch=master)](http://travis-ci.org/digitick/php-sepa-xml)
+Master: [![Build Status](https://api.travis-ci.org/monofone/php-sepa-xml.png?branch=master)](http://travis-ci.org/monofone/php-sepa-xml)
 
 SEPA file generator for PHP.
 
