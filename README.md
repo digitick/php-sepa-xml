@@ -1,4 +1,4 @@
-##THIS PROJECT IS NO LONGER MAINTAINED
+## THIS PROJECT IS NO LONGER MAINTAINED
 Please use https://github.com/php-sepa-xml/php-sepa-xml
 
 php-sepa-xml
@@ -24,8 +24,8 @@ Institutions and associations that should accept this format:
 However, always verify generated files with your bank before using!
 
 
-##Installation
-###Composer
+## Installation
+### Composer
 This library is available in packagist.org, you can add it to your project
 via Composer.
 
@@ -46,7 +46,7 @@ Specific minor version, API stability
 "digitick/sepa-xml" : "0.10.*"
 ```
 
-##Sample Usage DirectDebit with Factory
+## Sample Usage DirectDebit with Factory
 ```php
 //Set the initial information
 $directDebit = TransferFileFacadeFactory::createDirectDebit('test123', 'Me');
@@ -75,7 +75,7 @@ $directDebit->addTransfer('firstPayment', array(
 $directDebit->asXML();
 ```
 
-##Extended Usage Credit Transfer
+## Extended Usage Credit Transfer
 ```php
 // Create the initiating information
 $groupHeader = new GroupHeader('SEPA File Identifier', 'Your Company Name');
